@@ -1,16 +1,12 @@
-import 'dart:convert';
+// ignore_for_file: library_private_types_in_public_api, avoid_print
 
 import 'package:belajar_flutter_2/ramayana_login.dart';
-import 'package:belajar_flutter_2/models/models_user.dart';
-import 'package:http/http.dart' as http;
-import 'package:belajar_flutter_2/ramayana_home.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
-import 'package:url_launcher/url_launcher.dart';  
 
 class Reg extends StatefulWidget {
+  const Reg({super.key});
+
   @override
   _Reg createState() => _Reg();
 }
@@ -37,16 +33,14 @@ class _Reg extends State<Reg> {
   //   setState(() {});
   // }
 
-    // final controller_id_user = TextEditingController();
-    final controller_nama_user = TextEditingController();
-    final controller_password = TextEditingController();
-    final controller_subdivisi = TextEditingController();
+  // final controller_id_user = TextEditingController();
+  final controllerNamaUser = TextEditingController();
+  final controllerPassword = TextEditingController();
+  final controllerSubdivisi = TextEditingController();
 
-    var dio = Dio();
-    late Size ukuranLayar;
-    var akses = 'usr';
-
-
+  var dio = Dio();
+  late Size ukuranLayar;
+  var akses = 'usr';
 
   @override
   Widget build(BuildContext context) {
@@ -55,127 +49,121 @@ class _Reg extends State<Reg> {
         children: <Widget>[
           Container(
             height: 900,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color.fromARGB(255, 168, 3, 3),
             ),
           ),
           ListView(
             children: [
-          
-          Container(
-            margin: EdgeInsets.fromLTRB(20, 80, 20, 0),
-            height: 200,
-            width: 400,
-            
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  "assets/ramayana.png",
-                  height: 140,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-            child: Column(
-              children: <Widget>[
-                // TextField(
-                //   controller: controller_id_user,
-                //   keyboardType: TextInputType.number,
-                //   decoration: InputDecoration(
-                //     prefixIcon: Icon(
-                //       Icons.person,
-                //       color: Colors.white,
-                //     ),
-                //     labelText: 'ID User',
-                //   ),
-                // ),
-                SizedBox(height: 10),
-                TextField(
-                  controller: controller_nama_user,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.email,
-                      color: Colors.white,
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 80, 20, 0),
+                height: 200,
+                width: 400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      "assets/ramayana.png",
+                      height: 140,
                     ),
-                    labelText: 'Username',
-                  ),
+                  ],
                 ),
-                 SizedBox(height: 10),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                child: Column(
+                  children: <Widget>[
+                    // TextField(
+                    //   controller: controller_id_user,
+                    //   keyboardType: TextInputType.number,
+                    //   decoration: InputDecoration(
+                    //     prefixIcon: Icon(
+                    //       Icons.person,
+                    //       color: Colors.white,
+                    //     ),
+                    //     labelText: 'ID User',
+                    //   ),
+                    // ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: controllerNamaUser,
+                      keyboardType: TextInputType.multiline,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.white,
+                        ),
+                        labelText: 'Username',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
 
-                 TextField(
-                  controller: controller_password,
-                  obscureText: true,
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.key,
-                      color: Colors.white,
+                    TextField(
+                      controller: controllerPassword,
+                      obscureText: true,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.key,
+                          color: Colors.white,
+                        ),
+                        labelText: 'Password',
+                      ),
                     ),
-                    labelText: 'Password',
-                  ),
-                ),
-                 SizedBox(height: 10),
-                 
-                 TextField(
-                  controller: controller_subdivisi,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.person_outline,
-                      color: Colors.white,
-                    ),
-                    labelText: 'Subdivisi',
-                  ),
-                ),
-                 
-                SizedBox(height: 10),
-                MaterialButton(
-                  padding: EdgeInsets.symmetric(),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Text(
-                    'Daftar',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  color: Colors.red,
-                  onPressed: () async 
-                     {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return AddActivity();
-                    }));
-                    DateTime now = new DateTime.now();
-                    var formData = FormData.fromMap({
-                      'nama_user': controller_nama_user.text,
-                      'password': controller_password.text,
-                      'subdivisi': controller_subdivisi.text,
-                      
-                      // 'data_gambar': await MultipartFile.fromFile(
-                      //   _image?.path,
-                      //   filename: 'data_gambar${now.toString()}.png'
-                      // ),
-                    });
-                    var response = await dio.post('http://ramayana.joeloecs.com/mobileapi/tambah_user.php',
-                      data: formData
-                    );
-                    print('Berhasil, ${controller_nama_user.text}, ${controller_password.text}, ${controller_subdivisi.text},');
-                     }
-                      
-                  
-                ),
-              ],
-            ),
-          )
-              ],
-          ),
+                    const SizedBox(height: 10),
 
+                    TextField(
+                      controller: controllerSubdivisi,
+                      keyboardType: TextInputType.multiline,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.person_outline,
+                          color: Colors.white,
+                        ),
+                        labelText: 'Subdivisi',
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+                    MaterialButton(
+                        padding: const EdgeInsets.symmetric(),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        color: Colors.red,
+                        onPressed: () async {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const AddActivity();
+                          }));
+                          var formData = FormData.fromMap({
+                            'nama_user': controllerNamaUser.text,
+                            'password': controllerPassword.text,
+                            'subdivisi': controllerSubdivisi.text,
+
+                            // 'data_gambar': await MultipartFile.fromFile(
+                            //   _image?.path,
+                            //   filename: 'data_gambar${now.toString()}.png'
+                            // ),
+                          });
+                          await dio.post(
+                              'http://ramayana.joeloecs.com/mobileapi/tambah_user.php',
+                              data: formData);
+                          print(
+                              'Berhasil, ${controllerNamaUser.text}, ${controllerPassword.text}, ${controllerSubdivisi.text},');
+                        },
+                        child: const Text(
+                          'Daftar',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        )),
+                  ],
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );

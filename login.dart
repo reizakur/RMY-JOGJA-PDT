@@ -1,8 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 
 class AddActivity extends StatefulWidget {
+  const AddActivity({super.key});
+
   @override
   _AddActivity createState() => _AddActivity();
 }
@@ -54,7 +56,7 @@ class _AddActivity extends State<AddActivity> {
         children: <Widget>[
           Container(
             height: 900,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color.fromARGB(255, 168, 3, 3),
             ),
           ),
@@ -82,7 +84,7 @@ class _AddActivity extends State<AddActivity> {
           //   ),
           // ),
           Container(
-            margin: EdgeInsets.fromLTRB(20, 80, 20, 0),
+            margin: const EdgeInsets.fromLTRB(20, 80, 20, 0),
             height: 200,
             width: 400,
             // decoration: BoxDecoration(
@@ -101,10 +103,10 @@ class _AddActivity extends State<AddActivity> {
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(20, 300, 20, 0),
+            margin: const EdgeInsets.fromLTRB(20, 300, 20, 0),
             child: Column(
               children: <Widget>[
-                TextField(
+                const TextField(
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     prefixIcon: Icon(
@@ -114,8 +116,8 @@ class _AddActivity extends State<AddActivity> {
                     labelText: 'Username',
                   ),
                 ),
-                SizedBox(height: 10),
-                TextField(
+                const SizedBox(height: 10),
+                const TextField(
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     prefixIcon: Icon(
@@ -125,10 +127,10 @@ class _AddActivity extends State<AddActivity> {
                     labelText: 'Password',
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     'Forgot Pasword ?',
                     style: TextStyle(
                       fontSize: 12,
@@ -137,18 +139,18 @@ class _AddActivity extends State<AddActivity> {
                   ),
                 ),
                 MaterialButton(
-                  padding: EdgeInsets.symmetric(),
+                  padding: const EdgeInsets.symmetric(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  child: Text(
+                  color: Colors.red,
+                  onPressed: () {},
+                  child: const Text(
                     'Sign In',
                     style: TextStyle(
                       color: Colors.white,
                     ),
                   ),
-                  color: Colors.red,
-                  onPressed: () {},
                 ),
               ],
             ),

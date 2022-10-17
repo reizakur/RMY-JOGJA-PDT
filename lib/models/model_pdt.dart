@@ -1,29 +1,29 @@
 class Activityy {
-  int? id_act;
-  String? kode_toko;
-  String? kode_lokasi;
-  String? no_sku;
+  int? idAct;
+  String? kodeToko;
+  String? kodeLokasi;
+  String? noSku;
   String? quantity;
   String? tanggal;
 
   Activityy({
-    this.id_act,
-    this.kode_toko,
-    this.kode_lokasi,
-    this.no_sku,
+    this.idAct,
+    this.kodeToko,
+    this.kodeLokasi,
+    this.noSku,
     this.quantity,
     this.tanggal,
   });
 
   Map<String, dynamic> toMap() {
-    var map = Map<String, dynamic>();
+    var map = <String, dynamic>{};
 
-    if (id_act != null) {
-      map['id_act'] = id_act;
+    if (idAct != null) {
+      map['id_act'] = idAct;
     }
-    map['kode_toko'] = kode_toko;
-    map['kode_lokasi'] = kode_lokasi;
-    map['no_sku'] = no_sku;
+    map['kode_toko'] = kodeToko;
+    map['kode_lokasi'] = kodeLokasi;
+    map['no_sku'] = noSku;
     map['quantity'] = quantity;
     map['tanggal'] = tanggal;
 
@@ -31,11 +31,11 @@ class Activityy {
   }
 
   Activityy.fromMap(Map<String, dynamic> map) {
-    this.id_act = map['id_act'];
-    this.kode_toko = map['kode_toko'];
-    this.kode_lokasi = map['kode_lokasi'];
-    this.no_sku = map['no_sku'];
-    this.quantity = map['quantity'];
-    this.tanggal = map['tanggal'];
+    idAct = map['id_act'];
+    kodeToko = map['kode_toko'];
+    kodeLokasi = map['kode_lokasi'];
+    noSku = map['no_sku'];
+    quantity = map['quantity'];
+    tanggal = map['tanggal'];
   }
 }

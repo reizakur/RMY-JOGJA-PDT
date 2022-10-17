@@ -1,14 +1,14 @@
-import 'package:belajar_flutter_2/ramayana_barcode.dart';
-import 'package:belajar_flutter_2/ramayana_login.dart';
 import 'package:belajar_flutter_2/ramayana_home.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -24,14 +24,14 @@ class _MyAppState extends State<MyApp> {
               minWidth: 480,
               defaultScale: true,
               breakpoints: [
-                ResponsiveBreakpoint.autoScale(480, name: MOBILE),
-                ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                ResponsiveBreakpoint.autoScale(1200, name: DESKTOP),
+                const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+                const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                const ResponsiveBreakpoint.autoScale(1200, name: DESKTOP),
               ],
             ),
         title: 'Ramayana',
         debugShowCheckedModeBanner: false,
-        home: Ramayana());
+        home: const Ramayana());
   }
 }
 

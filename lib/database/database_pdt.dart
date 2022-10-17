@@ -1,7 +1,6 @@
 import 'package:belajar_flutter_2/models/model_pdt.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class DbHelper {
   static final DbHelper _instance = DbHelper._internal();
@@ -72,13 +71,13 @@ class DbHelper {
   Future<int?> updateActivityy(Activityy activityy) async {
     var dbClient = await _db;
     return await dbClient!.update(tableName, activityy.toMap(),
-        where: '$columnId = ?', whereArgs: [activityy.id_act]);
+        where: '$columnId = ?', whereArgs: [activityy.idAct]);
   }
 
   //hapus database
-  Future<int?> deleteActivityy(int id_act) async {
+  Future<int?> deleteActivityy(int idAct) async {
     var dbClient = await _db;
     return await dbClient!
-        .delete(tableName, where: '$columnId = ?', whereArgs: [id_act]);
+        .delete(tableName, where: '$columnId = ?', whereArgs: [idAct]);
   }
 }

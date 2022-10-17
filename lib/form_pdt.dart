@@ -1,59 +1,47 @@
+// ignore_for_file: library_private_types_in_public_api, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:belajar_flutter_2/database/database_pdt.dart';
-import 'package:belajar_flutter_2/list_pdt.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:belajar_flutter_2/models/model_pdt.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/cupertino.dart';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 // import 'package:universal_html/html.dart';
 import 'data.dart';
 import 'dart:async';
-import 'package:path_provider/path_provider.dart';
-
-
-
-
-
 
 class FormAct extends StatefulWidget {
-
   final Activityy? activityy;
 
-  FormAct({this.activityy});
+  const FormAct({super.key, this.activityy});
 
   @override
   _FormActState createState() => _FormActState();
 }
 
 class _FormActState extends State<FormAct> {
-
-  
-
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   DbHelper db = DbHelper();
 
-  TextEditingController? id_act;
-  TextEditingController? kode_toko;
-  TextEditingController? kode_lokasi;
-  TextEditingController? no_sku;
+  TextEditingController? idAct;
+  TextEditingController? kodeToko;
+  TextEditingController? kodeLokasi;
+  TextEditingController? noSku;
   TextEditingController? quantity;
   TextEditingController? tanggal;
 
   @override
   void initState() {
-    kode_toko = TextEditingController(
-        text: widget.activityy == null ? '' : widget.activityy!.kode_toko);
+    kodeToko = TextEditingController(
+        text: widget.activityy == null ? '' : widget.activityy!.kodeToko);
 
-    kode_lokasi = TextEditingController(
-        text: widget.activityy == null ? '' : widget.activityy!.kode_lokasi);
+    kodeLokasi = TextEditingController(
+        text: widget.activityy == null ? '' : widget.activityy!.kodeLokasi);
 
-    no_sku = TextEditingController(
-        text: widget.activityy == null ? '' : widget.activityy!.no_sku);
+    noSku = TextEditingController(
+        text: widget.activityy == null ? '' : widget.activityy!.noSku);
 
     quantity = TextEditingController(
         text: widget.activityy == null ? '' : widget.activityy!.quantity);
@@ -74,7 +62,6 @@ class _FormActState extends State<FormAct> {
     });
   }
 
-  @override
   // void dispose() {
   //   myController.dispose();
   //   super.dispose();
@@ -84,7 +71,6 @@ class _FormActState extends State<FormAct> {
   late Size ukuranLayar;
   var akses = 'usr';
 
-  @override
   void initStateDate() {
     // databaseInstance.database();
 
@@ -93,11 +79,9 @@ class _FormActState extends State<FormAct> {
     getSavedData();
   }
 
-  String _scanBarcode = '';
-
   Future<void> startBarcodeScanStream() async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
-        '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
         .listen((barcode) => print(barcode));
   }
 
@@ -105,7 +89,7 @@ class _FormActState extends State<FormAct> {
 
   Future<void> startBarcodeScanStream2() async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
-        '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
+            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
         .listen((barcode) => print(barcode));
   }
 
@@ -125,9 +109,7 @@ class _FormActState extends State<FormAct> {
     // setState to update our non-existent appearance.
     if (!mounted) return;
 
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
+    setState(() {});
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -152,245 +134,215 @@ class _FormActState extends State<FormAct> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Ramayana Scan'),
-          backgroundColor: Color.fromARGB(255, 255, 17, 17),
-          elevation: 7.20  ,
-          toolbarHeight: 75,
-        ),
+        title: const Text('Ramayana Scan'),
+        backgroundColor: const Color.fromARGB(255, 255, 17, 17),
+        elevation: 7.20,
+        toolbarHeight: 75,
+      ),
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           children: [
-
-                       Container(
-                          color: Color.fromARGB(255, 227, 0, 0)
+            Container(color: const Color.fromARGB(255, 227, 0, 0)),
+            Container(
+                margin: const EdgeInsets.only(top: 10),
+                width: 500,
+                height: 50,
+                color: const Color.fromARGB(255, 239, 237, 237),
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10, left: 20),
+                  child: const Text('Tambah Barang'
+                      //  '$_counter time${_counter == 1 ? '' : 's'}.',
                       ),
-
-                      Container(
-                          margin: EdgeInsets.only(top: 10),
-                          width: 500,
-                          height: 50,
-                          color: Color.fromARGB(255, 239, 237, 237),
-                          child:
-                          Container(
-                            margin: EdgeInsets.only(top: 10, left: 20),
-                            child:
-                            Text(
-                              'Tambah Barang'
-                            //  '$_counter time${_counter == 1 ? '' : 's'}.',
-        ),
-                          )
-                      ),
-
-                  SizedBox(
-                        height: 20,
-                        width: 20,
-                      ),
-
-                      
-
-            
-                    Text(
-                      'Tanggal',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 255, 17, 17),
-                      ),
-                    ),
-
-                     TextFormField(
-                       validator: RequiredValidator(errorText: "Required"),
-                          controller: tanggal,
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                            // icon: Icon(Icons.calendar_today), //icon of text field
-                            // labelText: "Enter Date" //label text of field
-                          ),
-                          ),
-                          // readOnly: true,
-                          //set it true, so that user will not able to edit text
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1950),
-                                //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2100));
-
-                            if (pickedDate != null) {
-                              print(
-                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                              String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
-                              print(
-                                  formattedDate); //formatted date output using intl package =>  2021-03-16
-                              setState(() {
-                                tanggal!.text =
-                                    formattedDate; //set output date to TextField value.
-                              });
-                            } else {}
-                          }
-                      ),
-                      SizedBox(
-                        height: 20,
-                        width: 20,
-                      ),
-
-                  Text('Kode Toko',
-                        style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), ),
-                      ),
-                  TextFormField(
-                    validator: RequiredValidator(errorText: "Required"),
-                    controller: kode_toko,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                        )
+                )),
+            const SizedBox(
+              height: 20,
+              width: 20,
+            ),
+            const Text(
+              'Tanggal',
+              style: TextStyle(
+                color: Color.fromARGB(255, 255, 17, 17),
+              ),
+            ),
+            TextFormField(
+                validator: RequiredValidator(errorText: "Required"),
+                controller: tanggal,
+                decoration: const InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    // icon: Icon(Icons.calendar_today), //icon of text field
+                    // labelText: "Enter Date" //label text of field
                   ),
-                  ),
-                
-            
-            SizedBox(
-                        height: 20,
-                        width: 20,
-                      ),
+                ),
+                // readOnly: true,
+                //set it true, so that user will not able to edit text
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1950),
+                      //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2100));
 
-
-                  Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Kode Lokasi',
-                            style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), ),
-                          ),
-                          Container(  
-                            child:
-                            MaterialButton(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)
-                                ),
-                                color: Color.fromARGB(255, 255, 17, 17),
-                                onPressed: () => scanBarcode(),
-                                child:
-                                Text('Scan',
-                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
-                                )
-                            ),
-                          ),
-                        ],
-                      ),
-
-                    TextFormField(
-                        validator: RequiredValidator(errorText: "Required"),
-                        controller: kode_lokasi!..text = '$_scanBarcode2\n',
-                         decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                        )
-                  ),
-
-                      ),
-
-                      SizedBox(
-                        height: 20,
-                        width: 20,
-                      ),    
-                      
-                      
+                  if (pickedDate != null) {
+                    print(
+                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    print(
+                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                    setState(() {
+                      tanggal!.text =
+                          formattedDate; //set output date to TextField value.
+                    });
+                  } else {}
+                }),
+            const SizedBox(
+              height: 20,
+              width: 20,
+            ),
+            const Text(
+              'Kode Toko',
+              style: TextStyle(
+                color: Color.fromARGB(255, 255, 17, 17),
+              ),
+            ),
+            TextFormField(
+              validator: RequiredValidator(errorText: "Required"),
+              controller: kodeToko,
+              decoration: const InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  )),
+            ),
+            const SizedBox(
+              height: 20,
+              width: 20,
+            ),
             Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('No. SKU',
-                            style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), ),
-                          ),
-                          Container(
-                            
-                            child:
-                            MaterialButton(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)
-                                ),
-                                color: Color.fromARGB(255, 255, 17, 17),
-                                onPressed: () => scanBarcode2(),
-                                child:
-                                Text('Scan',
-                                  style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
-                                )
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      TextFormField(
-                        validator: RequiredValidator(errorText: "Required"),
-                        controller: no_sku!..text = '$_scanBarcode2\n',
-                         decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                        )
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Kode Lokasi',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 17, 17),
                   ),
-                      ),
-
-                      SizedBox(
-                        height: 20,
-                        width: 20,
-                      ),
-            Text('Quantity',
-                        style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), ),
-                      ),
-
-                       TextFormField(
-                        validator: RequiredValidator(errorText: "Required"),
-                       controller: quantity,
-                        decoration: InputDecoration(
-                         enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black)),
-                        focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                        )
+                ),
+                MaterialButton(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    color: const Color.fromARGB(255, 255, 17, 17),
+                    onPressed: () => scanBarcode(),
+                    child: const Text(
+                      'Scan',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
+                    )),
+              ],
+            ),
+            TextFormField(
+              validator: RequiredValidator(errorText: "Required"),
+              controller: kodeLokasi!..text = '$_scanBarcode2\n',
+              decoration: const InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  )),
+            ),
+            const SizedBox(
+              height: 20,
+              width: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'No. SKU',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 17, 17),
                   ),
-                      ),
-            
-                 
-
+                ),
+                MaterialButton(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    color: const Color.fromARGB(255, 255, 17, 17),
+                    onPressed: () => scanBarcode2(),
+                    child: const Text(
+                      'Scan',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
+                    )),
+              ],
+            ),
+            TextFormField(
+              validator: RequiredValidator(errorText: "Required"),
+              controller: noSku!..text = '$_scanBarcode2\n',
+              decoration: const InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  )),
+            ),
+            const SizedBox(
+              height: 20,
+              width: 20,
+            ),
+            const Text(
+              'Quantity',
+              style: TextStyle(
+                color: Color.fromARGB(255, 255, 17, 17),
+              ),
+            ),
+            TextFormField(
+              validator: RequiredValidator(errorText: "Required"),
+              controller: quantity,
+              decoration: const InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  )),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 40),
               child: MaterialButton(
                 height: 50,
-                color: Color.fromARGB(255, 255, 17, 17),
+                color: const Color.fromARGB(255, 255, 17, 17),
                 child: (widget.activityy == null)
-                    ? Text(
+                    ? const Text(
                         'Add',
                         style: TextStyle(color: Colors.white),
                       )
-                    : Text(
+                    : const Text(
                         'Update',
                         style: TextStyle(color: Colors.white),
                       ),
                 onPressed: () {
-
-                   setState(() {
-                    _scanBarcode = kode_lokasi!.text;
-                    
-                  });
+                  setState(() {});
                   setState(() {
-                    _scanBarcode2 = no_sku!.text;
-                    
+                    _scanBarcode2 = noSku!.text;
                   });
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         backgroundColor: Colors.white,
                         content: Text(
                           'Validation Successful',
@@ -401,8 +353,6 @@ class _FormActState extends State<FormAct> {
                       ),
                     );
                     upsertActivityy();
-
-                   
                   }
                 },
               ),
@@ -417,20 +367,21 @@ class _FormActState extends State<FormAct> {
     if (widget.activityy != null) {
       //update
       await db.updateActivityy(Activityy.fromMap({
-        'id_act': widget.activityy!.id_act,
-        'kode_toko': kode_toko!.text,
-        'kode_lokasi': kode_lokasi!.text,
-        'no_sku': no_sku!.text,
+        'id_act': widget.activityy!.idAct,
+        'kode_toko': kodeToko!.text,
+        'kode_lokasi': kodeLokasi!.text,
+        'no_sku': noSku!.text,
         'quantity': quantity!.text,
         'tanggal': tanggal!.text,
       }));
+      // ignore: use_build_context_synchronously
       Navigator.pop(context, 'update');
     } else {
       //insert
       await db.saveActivityy(Activityy(
-        kode_toko: kode_toko!.text,
-        kode_lokasi: kode_lokasi!.text,
-        no_sku: no_sku!.text,
+        kodeToko: kodeToko!.text,
+        kodeLokasi: kodeLokasi!.text,
+        noSku: noSku!.text,
         quantity: quantity!.text,
         tanggal: tanggal!.text,
       ));

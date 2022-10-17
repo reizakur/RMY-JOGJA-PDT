@@ -1,35 +1,35 @@
 class AktivitasModel {
   AktivitasModel.init() {
-    this.fullname = 'Coffe Name';
+    fullname = 'Coffe Name';
   }
 
   // ignore: non_constant_identifier_names
-  late String id_act, 
-              fullname, 
-              subdivisi, 
-              location, 
-              status, 
-              description, 
-              target, 
-              date_visit, 
-              stk_numbers, 
-              data_gambar, 
-              id_user ;
+  late String id_act,
+      fullname,
+      subdivisi,
+      location,
+      status,
+      description,
+      target,
+      dateVisit,
+      stkNumber,
+      dataGambar,
+      idUser;
   // late int qty;
 
   AktivitasModel.fromjson(Map<String, dynamic> json) {
-    this.id_act = json["id_act"];
-    this.fullname = json["fullname"];
-    this.subdivisi = json["subdivisi"];
-    this.location = json["location"];
+    id_act = json["id_act"];
+    fullname = json["fullname"];
+    subdivisi = json["subdivisi"];
+    location = json["location"];
     // this.qty = json["qty"] == '' ? 0 : int.parse(json["qty"]);
-    this.status = json["status"];
-    this.description = json["description"];
-    this.target = json["target"];
-    this.date_visit = json["date_visit"];
-    this.stk_numbers = json["stk_numbers"];
-    this.data_gambar = json["data_gambar"];
-    this.id_user = json["id_user"];
+    status = json["status"];
+    description = json["description"];
+    target = json["target"];
+    dateVisit = json["date_visit"];
+    stkNumber = json["stk_numbers"];
+    dataGambar = json["data_gambar"];
+    idUser = json["id_user"];
   }
   static List<AktivitasModel> aktivitaslist = [];
 }
