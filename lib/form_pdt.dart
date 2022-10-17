@@ -10,9 +10,18 @@ import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
+// import 'package:universal_html/html.dart';
 import 'data.dart';
+import 'dart:async';
+import 'package:path_provider/path_provider.dart';
+
+
+
+
+
 
 class FormAct extends StatefulWidget {
+
   final Activityy? activityy;
 
   FormAct({this.activityy});
@@ -22,6 +31,9 @@ class FormAct extends StatefulWidget {
 }
 
 class _FormActState extends State<FormAct> {
+
+  
+
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   DbHelper db = DbHelper();
 
@@ -171,8 +183,9 @@ class _FormActState extends State<FormAct> {
                             margin: EdgeInsets.only(top: 10, left: 20),
                             child:
                             Text(
-                              'Tambah Barang', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22, color: Colors.black),
-                            ),
+                              'Tambah Barang'
+                            //  '$_counter time${_counter == 1 ? '' : 's'}.',
+        ),
                           )
                       ),
 
@@ -278,7 +291,7 @@ class _FormActState extends State<FormAct> {
 
                     TextFormField(
                         validator: RequiredValidator(errorText: "Required"),
-                        controller: kode_lokasi!..text = '$_scanBarcode\n',
+                        controller: kode_lokasi!..text = '$_scanBarcode2\n',
                          decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.black)),
                         focusedBorder: UnderlineInputBorder(
@@ -366,6 +379,7 @@ class _FormActState extends State<FormAct> {
                         style: TextStyle(color: Colors.white),
                       ),
                 onPressed: () {
+
                    setState(() {
                     _scanBarcode = kode_lokasi!.text;
                     
@@ -387,6 +401,8 @@ class _FormActState extends State<FormAct> {
                       ),
                     );
                     upsertActivityy();
+
+                   
                   }
                 },
               ),
@@ -418,7 +434,7 @@ class _FormActState extends State<FormAct> {
         quantity: quantity!.text,
         tanggal: tanggal!.text,
       ));
-      Navigator.pop(context, 'save');
+      // Navigator.pop(context, 'save');
     }
   }
 }

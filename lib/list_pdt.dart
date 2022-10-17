@@ -67,12 +67,12 @@ class _ListActivityPageState extends State<ListActivityPage> {
                   AnchorElement(
                       href:
                           'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
-                    ..setAttribute('download', 'Output.xlsx')
+                    ..setAttribute('download', 'Output.txt')
                     ..click();
                 } else {
                   final String path = (await getApplicationSupportDirectory()).path;
                   final String fileName =
-                      Platform.isWindows ? '$path\\Output.xlsx' : '$path/Output.xlsx';
+                      Platform.isWindows ? '$path\\Output.txt' : '$path/Output.txt';
                   final File file = File(fileName);
                   await file.writeAsBytes(bytes, flush: true);
                   OpenFile.open(fileName);
