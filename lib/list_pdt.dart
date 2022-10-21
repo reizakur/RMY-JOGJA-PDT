@@ -340,14 +340,17 @@ class _ListActivityPageState extends State<ListActivityPage> {
   // membuka halaman tambah Kontak
   Future<void> _openFormCreate() async {
     await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const FormAct()));
+        context, MaterialPageRoute(builder: (context) => FormAct()));
     await _getAllActivity();
   }
 
   //membuka halaman edit Kontak
   Future<void> _openFormEdit(Activityy activityy) async {
-    await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => FormAct(activityy: activityy)));
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                FormAct(activityy: activityy, isEditing: true)));
     await _getAllActivity();
   }
 }

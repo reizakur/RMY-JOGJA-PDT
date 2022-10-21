@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
+// ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:belajar_flutter_2/service/database_pdt.dart';
@@ -14,8 +14,9 @@ import 'dart:async';
 
 class FormAct extends StatefulWidget {
   final Activityy? activityy;
+  late bool isEditing;
 
-  const FormAct({super.key, this.activityy});
+  FormAct({super.key, this.activityy, this.isEditing = false});
 
   @override
   _FormActState createState() => _FormActState();
@@ -26,25 +27,31 @@ class _FormActState extends State<FormAct> {
   DbHelper db = DbHelper();
 
   // TextEditingController? idAct;
-  late TextEditingController kodeToko;
-  late TextEditingController kodeLokasi;
-  late TextEditingController noSku;
+  late TextEditingController kodeTokoController;
+  late TextEditingController kodeLokasiController;
+  late TextEditingController noSkuController;
   late TextEditingController quantity;
   late TextEditingController tanggal;
 
   @override
   void initState() {
-    kodeToko = TextEditingController(
-        text: widget.activityy == null ? '' : widget.activityy!.kodeToko);
-    kodeLokasi = TextEditingController(
-        text: widget.activityy == null ? '' : widget.activityy!.kodeLokasi);
-    noSku = TextEditingController(
-        text: widget.activityy == null ? '' : widget.activityy!.noSku);
-    quantity = TextEditingController(
-        text: widget.activityy == null ? '' : widget.activityy!.quantity);
-    tanggal = TextEditingController(
-        text: widget.activityy == null ? '' : widget.activityy!.tanggal);
+    kodeTokoController = TextEditingController();
+    kodeLokasiController = TextEditingController();
+    noSkuController = TextEditingController();
+    quantity = TextEditingController();
+    tanggal = TextEditingController();
+    if (widget.isEditing) {
+      setController();
+    }
     super.initState();
+  }
+
+  void setController() {
+    kodeTokoController.text = widget.activityy!.kodeToko!;
+    kodeLokasiController.text = widget.activityy!.kodeLokasi!;
+    noSkuController.text = widget.activityy!.noSku!;
+    quantity.text = widget.activityy!.quantity!;
+    tanggal.text = widget.activityy!.tanggal!;
   }
 
   var savedData = [];
@@ -212,7 +219,7 @@ class _FormActState extends State<FormAct> {
             ),
             TextFormField(
               validator: RequiredValidator(errorText: "Required"),
-              controller: kodeToko,
+              controller: kodeTokoController,
               decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)),
@@ -250,7 +257,7 @@ class _FormActState extends State<FormAct> {
             ),
             TextFormField(
               validator: RequiredValidator(errorText: "Required"),
-              controller: kodeLokasi..text = '$_scanBarcode2\n',
+              controller: kodeLokasiController,
               decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)),
@@ -288,7 +295,7 @@ class _FormActState extends State<FormAct> {
             ),
             TextFormField(
               validator: RequiredValidator(errorText: "Required"),
-              controller: noSku..text = '$_scanBarcode2\n',
+              controller: noSkuController,
               decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)),
@@ -333,23 +340,20 @@ class _FormActState extends State<FormAct> {
                 onPressed: () => onAddButton(loop: true),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: MaterialButton(
-                height: 50,
-                color: const Color.fromARGB(255, 255, 17, 17),
-                child: (widget.activityy == null)
-                    ? const Text(
+            widget.isEditing == false
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: MaterialButton(
+                      height: 50,
+                      color: const Color.fromARGB(255, 255, 17, 17),
+                      child: const Text(
                         'Add & Close',
                         style: TextStyle(color: Colors.white),
-                      )
-                    : const Text(
-                        'Update',
-                        style: TextStyle(color: Colors.white),
                       ),
-                onPressed: () => onAddButton(loop: false),
-              ),
-            )
+                      onPressed: () => onAddButton(loop: false),
+                    ),
+                  )
+                : const SizedBox()
           ],
         ),
       ),
@@ -358,7 +362,7 @@ class _FormActState extends State<FormAct> {
 
   void onAddButton({required bool loop}) {
     setState(() {
-      _scanBarcode2 = noSku.text;
+      _scanBarcode2 = noSkuController.text;
     });
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -378,20 +382,19 @@ class _FormActState extends State<FormAct> {
 
   void resetForm() {
     // kodeToko.text = '';
-    kodeLokasi.text = '';
-    noSku.text = '';
+    kodeLokasiController.text = '';
+    noSkuController.text = '';
     quantity.text = '';
     tanggal.text = '';
   }
 
   Future<void> insertActivityy({required bool loop}) async {
-    if (widget.activityy != null) {
-      //update
+    if (widget.isEditing) {
       await db.updateActivityy(Activityy.fromMap({
         'id_act': widget.activityy!.idAct,
-        'kode_toko': kodeToko.text,
-        'kode_lokasi': kodeLokasi.text,
-        'no_sku': noSku.text,
+        'kode_toko': kodeTokoController.text,
+        'kode_lokasi': kodeLokasiController.text,
+        'no_sku': noSkuController.text,
         'quantity': quantity.text,
         'tanggal': tanggal.text,
       }));
@@ -399,9 +402,9 @@ class _FormActState extends State<FormAct> {
     } else {
       //insert
       await db.saveActivityy(Activityy(
-        kodeToko: kodeToko.text,
-        kodeLokasi: kodeLokasi.text,
-        noSku: noSku.text,
+        kodeToko: kodeTokoController.text,
+        kodeLokasi: kodeLokasiController.text,
+        noSku: noSkuController.text,
         quantity: quantity.text,
         tanggal: tanggal.text,
       ));
