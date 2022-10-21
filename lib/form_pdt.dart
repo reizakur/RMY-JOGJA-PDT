@@ -1,7 +1,7 @@
-// ignore_for_file: library_private_types_in_public_api, avoid_print
+// ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:belajar_flutter_2/database/database_pdt.dart';
+import 'package:belajar_flutter_2/service/database_pdt.dart';
 import 'package:belajar_flutter_2/models/model_pdt.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -25,30 +25,25 @@ class _FormActState extends State<FormAct> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   DbHelper db = DbHelper();
 
-  TextEditingController? idAct;
-  TextEditingController? kodeToko;
-  TextEditingController? kodeLokasi;
-  TextEditingController? noSku;
-  TextEditingController? quantity;
-  TextEditingController? tanggal;
+  // TextEditingController? idAct;
+  late TextEditingController kodeToko;
+  late TextEditingController kodeLokasi;
+  late TextEditingController noSku;
+  late TextEditingController quantity;
+  late TextEditingController tanggal;
 
   @override
   void initState() {
     kodeToko = TextEditingController(
         text: widget.activityy == null ? '' : widget.activityy!.kodeToko);
-
     kodeLokasi = TextEditingController(
         text: widget.activityy == null ? '' : widget.activityy!.kodeLokasi);
-
     noSku = TextEditingController(
         text: widget.activityy == null ? '' : widget.activityy!.noSku);
-
     quantity = TextEditingController(
         text: widget.activityy == null ? '' : widget.activityy!.quantity);
-
     tanggal = TextEditingController(
         text: widget.activityy == null ? '' : widget.activityy!.tanggal);
-
     super.initState();
   }
 
@@ -74,7 +69,7 @@ class _FormActState extends State<FormAct> {
   void initStateDate() {
     // databaseInstance.database();
 
-    tanggal!.text = ""; //set the initial value of text field
+    tanggal.text = ""; //set the initial value of text field
     super.initState();
     getSavedData();
   }
@@ -200,7 +195,7 @@ class _FormActState extends State<FormAct> {
                     print(
                         formattedDate); //formatted date output using intl package =>  2021-03-16
                     setState(() {
-                      tanggal!.text =
+                      tanggal.text =
                           formattedDate; //set output date to TextField value.
                     });
                   } else {}
@@ -255,7 +250,7 @@ class _FormActState extends State<FormAct> {
             ),
             TextFormField(
               validator: RequiredValidator(errorText: "Required"),
-              controller: kodeLokasi!..text = '$_scanBarcode2\n',
+              controller: kodeLokasi..text = '$_scanBarcode2\n',
               decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)),
@@ -293,7 +288,7 @@ class _FormActState extends State<FormAct> {
             ),
             TextFormField(
               validator: RequiredValidator(errorText: "Required"),
-              controller: noSku!..text = '$_scanBarcode2\n',
+              controller: noSku..text = '$_scanBarcode2\n',
               decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)),
@@ -328,33 +323,31 @@ class _FormActState extends State<FormAct> {
                 color: const Color.fromARGB(255, 255, 17, 17),
                 child: (widget.activityy == null)
                     ? const Text(
-                        'Add',
+                        'Add & New',
                         style: TextStyle(color: Colors.white),
                       )
                     : const Text(
                         'Update',
                         style: TextStyle(color: Colors.white),
                       ),
-                onPressed: () {
-                  setState(() {});
-                  setState(() {
-                    _scanBarcode2 = noSku!.text;
-                  });
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: Colors.white,
-                        content: Text(
-                          'Validation Successful',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
+                onPressed: () => onAddButton(loop: true),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: MaterialButton(
+                height: 50,
+                color: const Color.fromARGB(255, 255, 17, 17),
+                child: (widget.activityy == null)
+                    ? const Text(
+                        'Add & Close',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    : const Text(
+                        'Update',
+                        style: TextStyle(color: Colors.white),
                       ),
-                    );
-                    upsertActivityy();
-                  }
-                },
+                onPressed: () => onAddButton(loop: false),
               ),
             )
           ],
@@ -363,29 +356,60 @@ class _FormActState extends State<FormAct> {
     );
   }
 
-  Future<void> upsertActivityy() async {
+  void onAddButton({required bool loop}) {
+    setState(() {
+      _scanBarcode2 = noSku.text;
+    });
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.white,
+          content: Text(
+            'Validation Successful',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ),
+      );
+      insertActivityy(loop: loop);
+    }
+  }
+
+  void resetForm() {
+    // kodeToko.text = '';
+    kodeLokasi.text = '';
+    noSku.text = '';
+    quantity.text = '';
+    tanggal.text = '';
+  }
+
+  Future<void> insertActivityy({required bool loop}) async {
     if (widget.activityy != null) {
       //update
       await db.updateActivityy(Activityy.fromMap({
         'id_act': widget.activityy!.idAct,
-        'kode_toko': kodeToko!.text,
-        'kode_lokasi': kodeLokasi!.text,
-        'no_sku': noSku!.text,
-        'quantity': quantity!.text,
-        'tanggal': tanggal!.text,
+        'kode_toko': kodeToko.text,
+        'kode_lokasi': kodeLokasi.text,
+        'no_sku': noSku.text,
+        'quantity': quantity.text,
+        'tanggal': tanggal.text,
       }));
-      // ignore: use_build_context_synchronously
       Navigator.pop(context, 'update');
     } else {
       //insert
       await db.saveActivityy(Activityy(
-        kodeToko: kodeToko!.text,
-        kodeLokasi: kodeLokasi!.text,
-        noSku: noSku!.text,
-        quantity: quantity!.text,
-        tanggal: tanggal!.text,
+        kodeToko: kodeToko.text,
+        kodeLokasi: kodeLokasi.text,
+        noSku: noSku.text,
+        quantity: quantity.text,
+        tanggal: tanggal.text,
       ));
-      // Navigator.pop(context, 'save');
+      if (loop) {
+        resetForm();
+      } else {
+        Navigator.pop(context, 'save');
+      }
     }
   }
 }
