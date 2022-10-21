@@ -3,7 +3,7 @@
 import 'package:belajar_flutter_2/ramayana_home.dart';
 import 'package:flutter/material.dart';
 import 'package:belajar_flutter_2/form_pdt.dart';
-import 'package:belajar_flutter_2/database/database_pdt.dart';
+import 'package:belajar_flutter_2/service/database_pdt.dart';
 import 'package:belajar_flutter_2/models/model_pdt.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Stack, Column, Row;
 import 'dart:io';
@@ -323,6 +323,7 @@ class _ListActivityPageState extends State<ListActivityPage> {
       //lakukan perulangan pada variabel list
       for (var activityy in list!) {
         //masukan data ke listKontak
+        print(activityy);
         listActivity.add(Activityy.fromMap(activityy));
       }
     });
@@ -338,19 +339,15 @@ class _ListActivityPageState extends State<ListActivityPage> {
 
   // membuka halaman tambah Kontak
   Future<void> _openFormCreate() async {
-    var result = await Navigator.push(
+    await Navigator.push(
         context, MaterialPageRoute(builder: (context) => const FormAct()));
-    if (result == 'save') {
-      await _getAllActivity();
-    }
+    await _getAllActivity();
   }
 
   //membuka halaman edit Kontak
   Future<void> _openFormEdit(Activityy activityy) async {
-    var result = await Navigator.push(context,
+    await Navigator.push(context,
         MaterialPageRoute(builder: (context) => FormAct(activityy: activityy)));
-    if (result == 'update') {
-      await _getAllActivity();
-    }
+    await _getAllActivity();
   }
 }
