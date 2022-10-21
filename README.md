@@ -4,6 +4,8 @@ Branch utama untuk pengembangan
 
 ## Dev progress
 - Clear all warning vscode
+- Form Loop Beta 1.0 
+
 ## catatan
 app package : belajar_flutter_2
 - State management : SetState
