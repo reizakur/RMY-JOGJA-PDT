@@ -1,14 +1,15 @@
-// ignore_for_file: library_private_types_in_public_api, avoid_print
+// ignore_for_file: library_private_types_in_public_api, avoid_print, import_of_legacy_library_into_null_safe
 
 import 'package:belajar_flutter_2/ramayana_home.dart';
+import 'package:belajar_flutter_2/service/export_file.dart';
 import 'package:flutter/material.dart';
 import 'package:belajar_flutter_2/form_pdt.dart';
 import 'package:belajar_flutter_2/service/database_pdt.dart';
 import 'package:belajar_flutter_2/models/model_pdt.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Stack, Column, Row;
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:universal_html/html.dart' show AnchorElement;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:convert';
@@ -33,6 +34,11 @@ class _ListActivityPageState extends State<ListActivityPage> {
   }
 
   Future<void> createExcel() async {
+    ExportFile exportFile = ExportFile(db: db);
+    OpenFile.open(await exportFile.writeToFile());
+  }
+
+  Future<void> createExcelUnnused() async {
     //ini bukan ya pak yg buat ngehubung ke excel
 
     final Workbook workbook = Workbook();
