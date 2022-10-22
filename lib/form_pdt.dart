@@ -111,7 +111,9 @@ class _FormActState extends State<FormAct> {
     // setState to update our non-existent appearance.
     if (!mounted) return;
 
-    setState(() {});
+    setState(() {
+      kodeLokasiController.text = barcodeScanRes;
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -133,6 +135,7 @@ class _FormActState extends State<FormAct> {
 
     setState(() {
       _scanBarcode2 = barcodeScanRes;
+      noSkuController.text = barcodeScanRes;
     });
   }
 
