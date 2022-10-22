@@ -6,6 +6,7 @@ Branch utama untuk pengembangan
 - Clear all warning vscode
 - Form Loop Beta 1.0 
 - Fix Edit function
+- Export on Beta 1
 
 ## catatan
 app package : belajar_flutter_2
